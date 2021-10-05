@@ -16,9 +16,9 @@ export default class App extends React.Component {
   };
   
   getData = async() => {
-    let q = this.searchValue;
-    let units = this.units;
-    let idToken = process.env.REACT_APP_OPEN_WEATHER_TOKEN;
+    let q = this.state.searchValue;
+    let units = this.state.units;
+    let idToken = "4ad2482850d740ddb7534475656fd360";
     alert(`https://api.openweathermap.org/data/2.5/weather?appid=${idToken}&q=${q}&units=${units}`)
     fetch (`https://api.openweathermap.org/data/2.5/weather?appid=${idToken}&q=${q}&units=${units}`)
     .then((resp) => {
@@ -65,13 +65,11 @@ this.getDataDebounced ("","minsk", "metric");
        <input value = {searchValue} onChange = {this.onSearchChange} />
        {isLoading && <Loader/>}
        {isError && !isLoading && <div> Что-то пошло не так</div>}
-       {!isError && !isLoading && (
-         <ul>
-           {data.map((item) => (
-             <li key = {item.id}>{item.name}</li>
-           ))}
-         </ul>
-       )}
+       {!isError && !isLoading && 
+         
+         data.temp
+         
+       }
 
       </div>
       );
