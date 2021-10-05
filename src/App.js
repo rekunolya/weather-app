@@ -1,7 +1,7 @@
 import './App.css';
 import React from 'react'
 import { Loader } from './Loader';
-import debounce from 'lodash';
+import {debounce} from 'lodash';
 
 
 
@@ -12,13 +12,15 @@ export default class App extends React.Component {
     isLoading: false,
     isError: false,
     units: "metric",
+    isFound: true,
   };
   
-  getData = async(idToken, q, units) => {
-     q = this.searchValue;
-     units = this.units;
-    idToken = process.env.REACT_APP_OPEN_WEATHER_TOKEN;
-    fetch (`https://api.openweathermap.org/data/2.5/weather?appid=${idToken}&${q}${units}`)
+  getData = async() => {
+    let q = this.searchValue;
+    let units = this.units;
+    let idToken = process.env.REACT_APP_OPEN_WEATHER_TOKEN;
+    alert(`https://api.openweathermap.org/data/2.5/weather?appid=${idToken}&q=${q}&units=${units}`)
+    fetch (`https://api.openweathermap.org/data/2.5/weather?appid=${idToken}&q=${q}&units=${units}`)
     .then((resp) => {
       if (resp.ok) {
         return resp.json();
@@ -27,7 +29,7 @@ export default class App extends React.Component {
       throw new Error("не ок");
     })
     .then((data) => {
-      this.setState({ data: data.main });
+      this.setState({ data: data.main, isFound: true, isError:false });
     })
     .catch(() => {
       this.setState({ isError: true });
@@ -48,7 +50,7 @@ if (prevState.searchValue === this.state.searchValue) {
   return;
 }
 
-this.getDataDebounced (this.state.searchValue);
+this.getDataDebounced ("","minsk", "metric");
   }
   
     onSearchChange = ({target : {value}}) => {
