@@ -2,6 +2,7 @@ import './App.css';
 import React from 'react'
 import { Loader } from './Loader';
 import {debounce} from 'lodash';
+import { TableWeather } from './TableWeather';
 
 
 
@@ -18,8 +19,8 @@ export default class App extends React.Component {
   getData = async() => {
     let q = this.state.searchValue;
     let units = this.state.units;
-    let idToken = "4ad2482850d740ddb7534475656fd360";
-    alert(`https://api.openweathermap.org/data/2.5/weather?appid=${idToken}&q=${q}&units=${units}`)
+    let idToken = process.env.REACT_APP_OPEN_WEATHER_TOKEN;
+    //alert(`https://api.openweathermap.org/data/2.5/weather?appid=${idToken}&q=${q}&units=${units}`)
     fetch (`https://api.openweathermap.org/data/2.5/weather?appid=${idToken}&q=${q}&units=${units}`)
     .then((resp) => {
       if (resp.ok) {
@@ -65,10 +66,11 @@ this.getDataDebounced ("","minsk", "metric");
        <input value = {searchValue} onChange = {this.onSearchChange} />
        {isLoading && <Loader/>}
        {isError && !isLoading && <div> Что-то пошло не так</div>}
-       {!isError && !isLoading && 
-         
-         data.temp
-         
+       {!isError && !isLoading && (
+
+     <TableWeather data = {data}/>
+       )
+        
        }
 
       </div>
